@@ -45,8 +45,8 @@ use pgtrgm::prelude::*;
 
 // Find similar names
 let results = users::table
-    .filter(users::name.similar_to("john"))
-    .order_by(users::name.distance("john"))
+    .filter(users::name.trgm_similar_to("john"))
+    .order_by(users::name.trgm_distance("john"))
     .load::<User>(&mut conn)?;
 
 // Get similarity score
@@ -54,12 +54,12 @@ use pgtrgm::dsl::similarity;
 
 let results = users::table
     .select((users::name, similarity(users::name, "john")))
-    .filter(users::name.similar_to("john"))
+    .filter(users::name.trgm_similar_to("john"))
     .load::<(String, f32)>(&mut conn)?;
 
 // Word similarity for matching within longer text
 let results = articles::table
-    .filter(articles::content.word_similar_to("database"))
+    .filter(articles::content.trgm_word_similar_to("database"))
     .load::<Article>(&mut conn)?;
 ```
 

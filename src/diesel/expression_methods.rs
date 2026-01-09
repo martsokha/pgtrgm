@@ -30,11 +30,11 @@ where
     /// # Example
     ///
     /// ```rust,ignore
-    /// use pgtrgm::TrgmExpressionMethods;
+    /// use pgtrgm::expression_methods::TrgmExpressionMethods;
     ///
-    /// users.filter(name.similar_to("john"))
+    /// users.filter(name.trgm_similar_to("john"))
     /// ```
-    fn similar_to<T>(self, other: T) -> Similar<Self, T::Expression>
+    fn trgm_similar_to<T>(self, other: T) -> Similar<Self, T::Expression>
     where
         T: AsExpression<Text>,
     {
@@ -44,7 +44,7 @@ where
     /// Checks if this expression contains a word similar to the given text.
     ///
     /// Uses the `%>` operator.
-    fn word_similar_to<T>(self, other: T) -> WordSimilarRight<Self, T::Expression>
+    fn trgm_word_similar_to<T>(self, other: T) -> WordSimilarRight<Self, T::Expression>
     where
         T: AsExpression<Text>,
     {
@@ -54,7 +54,7 @@ where
     /// Checks if this expression contains a word strictly similar to the given text.
     ///
     /// Uses the `%>>` operator with strict word boundaries.
-    fn strict_word_similar_to<T>(self, other: T) -> StrictWordSimilarRight<Self, T::Expression>
+    fn trgm_strict_word_similar_to<T>(self, other: T) -> StrictWordSimilarRight<Self, T::Expression>
     where
         T: AsExpression<Text>,
     {
@@ -69,11 +69,11 @@ where
     /// # Example
     ///
     /// ```rust,ignore
-    /// use pgtrgm::TrgmExpressionMethods;
+    /// use pgtrgm::expression_methods::TrgmExpressionMethods;
     ///
-    /// users.order_by(name.distance("john"))
+    /// users.order_by(name.trgm_distance("john"))
     /// ```
-    fn distance<T>(self, other: T) -> Distance<Self, T::Expression>
+    fn trgm_distance<T>(self, other: T) -> Distance<Self, T::Expression>
     where
         T: AsExpression<Text>,
     {
@@ -83,7 +83,7 @@ where
     /// Returns the word similarity distance.
     ///
     /// Uses the `<->>` operator.
-    fn word_distance<T>(self, other: T) -> WordDistanceRight<Self, T::Expression>
+    fn trgm_word_distance<T>(self, other: T) -> WordDistanceRight<Self, T::Expression>
     where
         T: AsExpression<Text>,
     {
@@ -93,7 +93,7 @@ where
     /// Returns the strict word similarity distance.
     ///
     /// Uses the `<->>>` operator.
-    fn strict_word_distance<T>(self, other: T) -> StrictWordDistanceRight<Self, T::Expression>
+    fn trgm_strict_word_distance<T>(self, other: T) -> StrictWordDistanceRight<Self, T::Expression>
     where
         T: AsExpression<Text>,
     {
@@ -120,7 +120,7 @@ where
     /// Checks if this expression is similar to the concatenated array elements.
     ///
     /// Joins the array elements with spaces before comparing.
-    fn similar_to_array<T>(self, other: T) -> Similar<Self, ArrayToStringExpr<T::Expression>>
+    fn trgm_similar_to_array<T>(self, other: T) -> Similar<Self, ArrayToStringExpr<T::Expression>>
     where
         T: AsExpression<Array<Text>>,
     {
@@ -130,7 +130,7 @@ where
     /// Returns the trigram distance to the concatenated array elements.
     ///
     /// Joins the array elements with spaces before comparing.
-    fn distance_to_array<T>(self, other: T) -> Distance<Self, ArrayToStringExpr<T::Expression>>
+    fn trgm_distance_to_array<T>(self, other: T) -> Distance<Self, ArrayToStringExpr<T::Expression>>
     where
         T: AsExpression<Array<Text>>,
     {

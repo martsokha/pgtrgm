@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `prelude` module for convenient glob imports
+
+### Changed
+
+- Renamed all expression methods with `trgm_` prefix to avoid conflicts with Diesel's `PgTextExpressionMethods::similar_to`:
+  - `similar_to` → `trgm_similar_to`
+  - `word_similar_to` → `trgm_word_similar_to`
+  - `strict_word_similar_to` → `trgm_strict_word_similar_to`
+  - `distance` → `trgm_distance`
+  - `word_distance` → `trgm_word_distance`
+  - `strict_word_distance` → `trgm_strict_word_distance`
+  - `similar_to_array` → `trgm_similar_to_array`
+  - `distance_to_array` → `trgm_distance_to_array`
+
 ## [0.2.0] - 2026-01-09
 
 ### Changed
