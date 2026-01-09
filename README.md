@@ -53,7 +53,7 @@ CREATE INDEX users_name_trgm_idx ON users USING gin (name gin_trgm_ops);
 
 Use the `%` operator to find similar strings:
 
-```rust
+```rust,ignore
 use diesel::prelude::*;
 use pgtrgm::diesel::TrgmExpressionMethods;
 
@@ -67,7 +67,7 @@ let results = users::table
 
 Use the distance operator to order results by relevance:
 
-```rust
+```rust,ignore
 use diesel::prelude::*;
 use pgtrgm::diesel::TrgmExpressionMethods;
 
@@ -82,7 +82,7 @@ let results = users::table
 
 Get the actual similarity score between strings:
 
-```rust
+```rust,ignore
 use diesel::prelude::*;
 use pgtrgm::diesel::similarity;
 
@@ -97,7 +97,7 @@ let results = users::table
 
 For matching words within longer text:
 
-```rust
+```rust,ignore
 use diesel::prelude::*;
 use pgtrgm::diesel::TrgmExpressionMethods;
 
@@ -111,7 +111,7 @@ let results = articles::table
 
 SQLx uses raw SQL queries, so this module provides SQL constants and helper functions:
 
-```rust
+```rust,ignore
 use sqlx::postgres::PgPool;
 
 // Direct SQL with pg_trgm operators

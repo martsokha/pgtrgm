@@ -1,12 +1,13 @@
 //! Diesel ORM support for pg_trgm.
-//!
-//! This module provides Diesel bindings for PostgreSQL's `pg_trgm` extension.
 
+mod expression_methods;
 mod functions;
+mod helper_functions;
 mod operators;
 
+#[doc(hidden)]
+pub mod prelude;
+
+pub use expression_methods::TrgmExpressionMethods;
 pub use functions::*;
-pub use operators::{
-    strict_word_distance_left, strict_word_similar, word_distance_left, word_similar,
-    TrgmExpressionMethods,
-};
+pub use helper_functions::*;
