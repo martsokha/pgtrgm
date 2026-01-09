@@ -9,3 +9,6 @@ pub mod diesel;
 #[cfg(feature = "sqlx")]
 #[cfg_attr(docsrs, doc(cfg(feature = "sqlx")))]
 pub mod sqlx;
+
+#[doc(hidden)]
+pub mod prelude;

@@ -14,7 +14,6 @@ This crate provides bindings for PostgreSQL's `pg_trgm` extension, enabling trig
 - **SQLx support** - Helper functions and SQL constants for raw queries
 - Trigram similarity operators (`%`, `<%`, `%>`, `<<%`, `%>>`)
 - Distance operators (`<->`, `<<->`, `<->>`, `<<<->`, `<->>>`)
-- SQL functions (`similarity`, `word_similarity`, `strict_word_similarity`, `show_trgm`)
 
 ## Installation
 
@@ -46,118 +45,13 @@ For optimal performance, create a GIN index on columns you'll search:
 CREATE INDEX users_name_trgm_idx ON users USING gin (name gin_trgm_ops);
 ```
 
-## Diesel Usage
+## Usage
 
-### Similarity Search
+See the [API documentation](https://docs.rs/pgtrgm) for detailed usage examples.
 
-Use the `%` operator to find similar strings:
+## Acknowledgments
 
-```rust,ignore
-use diesel::prelude::*;
-use pgtrgm::diesel::TrgmExpressionMethods;
-
-// Find users with names similar to "john"
-let results = users::table
-    .filter(users::name.similar_to("john"))
-    .load::<User>(&mut conn)?;
-```
-
-### Ordering by Similarity
-
-Use the distance operator to order results by relevance:
-
-```rust,ignore
-use diesel::prelude::*;
-use pgtrgm::diesel::TrgmExpressionMethods;
-
-// Find and order by similarity (lower distance = more similar)
-let results = users::table
-    .filter(users::name.similar_to("john"))
-    .order_by(users::name.distance("john"))
-    .load::<User>(&mut conn)?;
-```
-
-### Similarity Score
-
-Get the actual similarity score between strings:
-
-```rust,ignore
-use diesel::prelude::*;
-use pgtrgm::diesel::similarity;
-
-// Select similarity score alongside results
-let results = users::table
-    .select((users::name, similarity(users::name, "john")))
-    .filter(users::name.similar_to("john"))
-    .load::<(String, f32)>(&mut conn)?;
-```
-
-### Word Similarity
-
-For matching words within longer text:
-
-```rust,ignore
-use diesel::prelude::*;
-use pgtrgm::diesel::TrgmExpressionMethods;
-
-// Find where a word in the text is similar to the search term
-let results = articles::table
-    .filter(articles::content.word_similar_to("database"))
-    .load::<Article>(&mut conn)?;
-```
-
-## SQLx Usage
-
-SQLx uses raw SQL queries, so this module provides SQL constants and helper functions:
-
-```rust,ignore
-use sqlx::postgres::PgPool;
-
-// Direct SQL with pg_trgm operators
-let results = sqlx::query_as!(
-    User,
-    r#"
-    SELECT id, name, email
-    FROM users
-    WHERE name % $1
-    ORDER BY name <-> $1
-    LIMIT 10
-    "#,
-    search_term
-)
-.fetch_all(&pool)
-.await?;
-```
-
-### Helper Functions
-
-```rust
-use pgtrgm::sqlx::{similarity_filter, distance_order, similarity_fn};
-
-// Build query fragments
-let filter = similarity_filter("name", "$1");  // "name % $1"
-let order = distance_order("name", "$1");      // "name <-> $1"
-let score = similarity_fn("name", "$1");       // "similarity(name, $1)"
-```
-
-### SQL Constants
-
-```rust
-use pgtrgm::sqlx::{SIMILAR, DISTANCE, WORD_SIMILAR_LEFT};
-
-// Use constants in dynamic queries
-let query = format!("SELECT * FROM users WHERE name{SIMILAR}$1");
-```
-
-## Configuration
-
-The default similarity threshold is 0.3. You can change it per-session:
-
-```sql
-SET pg_trgm.similarity_threshold = 0.5;
-SET pg_trgm.word_similarity_threshold = 0.6;
-SET pg_trgm.strict_word_similarity_threshold = 0.5;
-```
+This crate is inspired by [triforce_rs](https://github.com/callym/triforce_rs).
 
 ## Contributing
 

@@ -1,15 +1,27 @@
 //! Extension trait for pg_trgm operators.
 
 use diesel::expression::{AsExpression, Expression};
-use diesel::sql_types::Text;
+use diesel::sql_types::{Nullable, Text};
 
 use super::operators::*;
+
+/// Marker trait for types that support trigram operations.
+///
+/// Implemented for `Text` and `Nullable<Text>`.
+/// Note: `Varchar` is an alias for `Text` in Diesel, so it's automatically supported.
+pub trait TrgmTextType {}
+
+impl TrgmTextType for Text {}
+impl TrgmTextType for Nullable<Text> {}
 
 /// Extension trait for text expressions to provide pg_trgm operators.
 ///
 /// This trait is implemented for all Diesel expressions that return `Text`
 /// or `Nullable<Text>`.
-pub trait TrgmExpressionMethods: Expression + Sized {
+pub trait TrgmExpressionMethods: Expression + Sized
+where
+    Self::SqlType: TrgmTextType,
+{
     /// Checks if this expression is similar to the given text using trigram matching.
     ///
     /// Uses the `%` operator. Returns true if similarity exceeds the threshold.
@@ -88,4 +100,9 @@ pub trait TrgmExpressionMethods: Expression + Sized {
     }
 }
 
-impl<T> TrgmExpressionMethods for T where T: Expression {}
+impl<T> TrgmExpressionMethods for T
+where
+    T: Expression,
+    T::SqlType: TrgmTextType,
+{
+}
