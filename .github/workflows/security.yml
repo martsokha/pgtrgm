@@ -60,18 +60,3 @@ jobs:
 
       - name: Run cargo deny
         run: cargo deny check all
-
-  dependency-review:
-    name: Dependency Review
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Dependency Review
-        uses: actions/dependency-review-action@v4
-        with:
-          fail-on-severity: moderate
-          allow-licenses: MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Unicode-DFS-2016, Unicode-3.0, Unlicense, BSL-1.0, Zlib, CDLA-Permissive-2.0, LGPL-2.1-or-later, Apache-2.0 OR MIT, MIT OR Apache-2.0, Apache-2.0 AND ISC, MIT OR Unlicense, Apache-2.0 OR ISC OR MIT, (MIT OR Apache-2.0) AND Unicode-3.0
-          allow-dependencies-licenses: "pkg:cargo/unicode-properties"
