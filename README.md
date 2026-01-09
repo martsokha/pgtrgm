@@ -1,9 +1,8 @@
 # pgtrgm
 
+[![Build](https://github.com/martsokha/pgtrgm/actions/workflows/build.yml/badge.svg)](https://github.com/martsokha/pgtrgm/actions/workflows/build.yml)
 [![Crates.io](https://img.shields.io/crates/v/pgtrgm.svg)](https://crates.io/crates/pgtrgm)
 [![Documentation](https://docs.rs/pgtrgm/badge.svg)](https://docs.rs/pgtrgm)
-[![License](https://img.shields.io/crates/l/pgtrgm.svg)](LICENSE)
-[![CI](https://github.com/martsokha/pgtrgm/actions/workflows/ci.yml/badge.svg)](https://github.com/martsokha/pgtrgm/actions/workflows/ci.yml)
 
 PostgreSQL [pg_trgm](https://www.postgresql.org/docs/current/pgtrgm.html) extension support for [Diesel](https://diesel.rs/) and [SQLx](https://github.com/launchbadge/sqlx).
 
@@ -150,38 +149,6 @@ use pgtrgm::sqlx::{SIMILAR, DISTANCE, WORD_SIMILAR_LEFT};
 let query = format!("SELECT * FROM users WHERE name{SIMILAR}$1");
 ```
 
-## API Reference
-
-### Diesel Operators
-
-| Method | SQL Operator | Description |
-|--------|--------------|-------------|
-| `similar_to()` | `%` | Returns true if similarity > threshold |
-| `word_similar_to()` | `%>` | Word similarity check |
-| `strict_word_similar_to()` | `%>>` | Strict word similarity check |
-| `distance()` | `<->` | Returns 1 - similarity (for ordering) |
-| `word_distance()` | `<->>` | Word similarity distance |
-| `strict_word_distance()` | `<->>>` | Strict word similarity distance |
-
-### Diesel Functions
-
-| Function | Description |
-|----------|-------------|
-| `similarity(a, b)` | Returns similarity as float (0.0 to 1.0) |
-| `word_similarity(a, b)` | Returns word similarity score |
-| `strict_word_similarity(a, b)` | Returns strict word similarity score |
-| `show_trgm(text)` | Returns array of trigrams for debugging |
-| `show_limit()` | Returns current similarity threshold |
-
-### SQLx Constants
-
-| Constant | SQL |
-|----------|-----|
-| `SIMILAR` | ` % ` |
-| `WORD_SIMILAR_LEFT` | ` <% ` |
-| `WORD_SIMILAR_RIGHT` | ` %> ` |
-| `DISTANCE` | ` <-> ` |
-
 ## Configuration
 
 The default similarity threshold is 0.3. You can change it per-session:
@@ -192,6 +159,13 @@ SET pg_trgm.word_similarity_threshold = 0.6;
 SET pg_trgm.strict_word_similarity_threshold = 0.5;
 ```
 
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
+for details on how to submit pull requests, report issues, and contribute to the
+project.
+
 ## License
 
-Licensed under the MIT License. See [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License - see the
+[LICENSE.txt](LICENSE.txt) file for details.
