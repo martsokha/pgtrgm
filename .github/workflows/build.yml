@@ -7,11 +7,9 @@ on:
       - "release"
     paths:
       - "src/**"
-
       - "Cargo.toml"
       - "Cargo.lock"
       - "rustfmt.toml"
-
       - ".github/workflows/build.yml"
   pull_request:
     branches:
@@ -19,11 +17,9 @@ on:
       - "release"
     paths:
       - "src/**"
-
       - "Cargo.toml"
       - "Cargo.lock"
       - "rustfmt.toml"
-
       - ".github/workflows/build.yml"
   schedule:
     - cron: "0 2 * * *"
