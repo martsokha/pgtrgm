@@ -9,7 +9,7 @@ license = "MIT"
 
 description = "PostgreSQL pg_trgm extension support for Diesel and SQLx"
 readme = "README.md"
-keywords = ["diesel", "sqlx", "postgres", "trigram", "pg_trgm", "similarity"]
+keywords = ["diesel", "sqlx", "postgres", "trigram", "pg_trgm"]
 categories = ["database"]
 
 authors = ["Oleh Martsokha <o.martsokha@gmail.com>"]

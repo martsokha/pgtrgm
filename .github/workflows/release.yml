@@ -45,5 +45,4 @@ jobs:
         uses: Swatinem/rust-cache@v2
 
       - name: Publish to crates.io
-        run: cargo publish --token ${{ secrets.CARGO_TOKEN }} --allow-dirty
-        continue-on-error: true
+        run: cargo publish --token ${{ secrets.CARGO_TOKEN }}
