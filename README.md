@@ -41,12 +41,12 @@ CREATE INDEX users_name_trgm_idx ON users USING gin (name gin_trgm_ops);
 
 ```rust,ignore
 use diesel::prelude::*;
-use pgtrgm::expression_methods::TrgmExpressionMethods;
+use pgtrgm::prelude::*;
 
 // Find similar names
 let results = users::table
-    .filter(users::name.similar_to("john"))
-    .order_by(users::name.distance("john"))
+    .filter(users::name.trgm_similar_to("john"))
+    .order_by(users::name.trgm_distance("john"))
     .load::<User>(&mut conn)?;
 
 // Get similarity score
@@ -54,18 +54,18 @@ use pgtrgm::dsl::similarity;
 
 let results = users::table
     .select((users::name, similarity(users::name, "john")))
-    .filter(users::name.similar_to("john"))
+    .filter(users::name.trgm_similar_to("john"))
     .load::<(String, f32)>(&mut conn)?;
 
 // Word similarity for matching within longer text
 let results = articles::table
-    .filter(articles::content.word_similar_to("database"))
+    .filter(articles::content.trgm_word_similar_to("database"))
     .load::<Article>(&mut conn)?;
 ```
 
 ## Acknowledgments
 
-This crate is inspired by [triforce_rs](https://github.com/callym/triforce_rs).
+This crate is a fork of [triforce_rs](https://github.com/callym/triforce_rs).
 
 ## Contributing
 

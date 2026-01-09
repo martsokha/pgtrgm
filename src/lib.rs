@@ -9,3 +9,6 @@ mod diesel;
 #[cfg(feature = "diesel")]
 #[cfg_attr(docsrs, doc(cfg(feature = "diesel")))]
 pub use diesel::{dsl, expression_methods};
+
+#[doc(hidden)]
+pub mod prelude;
