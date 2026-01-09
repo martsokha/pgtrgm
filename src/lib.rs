@@ -4,11 +4,8 @@
 
 #[cfg(feature = "diesel")]
 #[cfg_attr(docsrs, doc(cfg(feature = "diesel")))]
-pub mod diesel;
+mod diesel;
 
-#[cfg(feature = "sqlx")]
-#[cfg_attr(docsrs, doc(cfg(feature = "sqlx")))]
-pub mod sqlx;
-
-#[doc(hidden)]
-pub mod prelude;
+#[cfg(feature = "diesel")]
+#[cfg_attr(docsrs, doc(cfg(feature = "diesel")))]
+pub use diesel::{dsl, expression_methods};

@@ -1,6 +1,13 @@
-//! pg_trgm SQL functions for Diesel.
+//! pg_trgm DSL functions for Diesel.
+//!
+//! This module contains SQL functions and helper functions for pg_trgm operations.
 
+use diesel::expression::AsExpression;
 use diesel::sql_types::{Array, Float, Text};
+
+use super::operators::*;
+
+// SQL functions
 
 diesel::define_sql_function! {
     /// Returns a number that indicates how similar the two arguments are.
@@ -56,4 +63,64 @@ diesel::define_sql_function! {
     ///
     /// This is a PostgreSQL built-in function used internally for array support.
     fn array_to_string(array: Array<Text>, delimiter: Text) -> Text;
+}
+
+// Helper functions
+
+/// Checks if the given text has a word similar to the expression.
+///
+/// Uses the `<%` operator.
+///
+/// # Example
+///
+/// ```rust,ignore
+/// use pgtrgm::dsl::word_similar;
+///
+/// users.filter(word_similar("john", name))
+/// ```
+pub fn word_similar<T, U>(left: T, right: U) -> WordSimilarLeft<T::Expression, U::Expression>
+where
+    T: AsExpression<Text>,
+    U: AsExpression<Text>,
+{
+    WordSimilarLeft::new(left.as_expression(), right.as_expression())
+}
+
+/// Checks if the given text has a word strictly similar to the expression.
+///
+/// Uses the `<<%` operator.
+pub fn strict_word_similar<T, U>(
+    left: T,
+    right: U,
+) -> StrictWordSimilarLeft<T::Expression, U::Expression>
+where
+    T: AsExpression<Text>,
+    U: AsExpression<Text>,
+{
+    StrictWordSimilarLeft::new(left.as_expression(), right.as_expression())
+}
+
+/// Returns the word similarity distance with arguments in the left-hand order.
+///
+/// Uses the `<<->` operator.
+pub fn word_distance_left<T, U>(left: T, right: U) -> WordDistanceLeft<T::Expression, U::Expression>
+where
+    T: AsExpression<Text>,
+    U: AsExpression<Text>,
+{
+    WordDistanceLeft::new(left.as_expression(), right.as_expression())
+}
+
+/// Returns the strict word similarity distance with arguments in the left-hand order.
+///
+/// Uses the `<<<->` operator.
+pub fn strict_word_distance_left<T, U>(
+    left: T,
+    right: U,
+) -> StrictWordDistanceLeft<T::Expression, U::Expression>
+where
+    T: AsExpression<Text>,
+    U: AsExpression<Text>,
+{
+    StrictWordDistanceLeft::new(left.as_expression(), right.as_expression())
 }

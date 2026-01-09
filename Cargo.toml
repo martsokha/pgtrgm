@@ -2,14 +2,14 @@
 
 [package]
 name = "pgtrgm"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.85"
 license = "MIT"
 
-description = "PostgreSQL pg_trgm extension support for Diesel and SQLx"
+description = "PostgreSQL pg_trgm extension support for Diesel"
 readme = "README.md"
-keywords = ["diesel", "sqlx", "postgres", "trigram", "pg_trgm"]
+keywords = ["diesel", "postgres", "trigram", "pg_trgm", "similarity"]
 categories = ["database"]
 
 authors = ["Oleh Martsokha <o.martsokha@gmail.com>"]
@@ -27,9 +27,5 @@ default = []
 ## Enable Diesel ORM support with operators and SQL functions
 diesel = ["dep:diesel"]
 
-## Enable SQLx support with SQL constants and helper functions
-sqlx = ["dep:sqlx"]
-
 [dependencies]
 diesel = { version = "2.2", features = ["postgres"], optional = true }
-sqlx = { version = "0.8", features = ["postgres"], optional = true }

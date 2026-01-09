@@ -4,14 +4,13 @@
 [![Crates.io](https://img.shields.io/crates/v/pgtrgm.svg)](https://crates.io/crates/pgtrgm)
 [![Documentation](https://docs.rs/pgtrgm/badge.svg)](https://docs.rs/pgtrgm)
 
-PostgreSQL [pg_trgm](https://www.postgresql.org/docs/current/pgtrgm.html) extension support for [Diesel](https://diesel.rs/) and [SQLx](https://github.com/launchbadge/sqlx).
+PostgreSQL [pg_trgm](https://www.postgresql.org/docs/current/pgtrgm.html) extension support for [Diesel](https://diesel.rs/).
 
 This crate provides bindings for PostgreSQL's `pg_trgm` extension, enabling trigram-based text similarity matching and fuzzy search.
 
 ## Features
 
-- **Diesel support** - Full query builder integration with operators and functions
-- **SQLx support** - Helper functions and SQL constants for raw queries
+- Full query builder integration with operators and functions
 - Trigram similarity operators (`%`, `<%`, `%>`, `<<%`, `%>>`)
 - Distance operators (`<->`, `<<->`, `<->>`, `<<<->`, `<->>>`)
 
@@ -21,14 +20,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-# For Diesel users
 pgtrgm = { version = "0.1", features = ["diesel"] }
-
-# For SQLx users
-pgtrgm = { version = "0.1", features = ["sqlx"] }
-
-# Or both
-pgtrgm = { version = "0.1", features = ["diesel", "sqlx"] }
 ```
 
 ## PostgreSQL Setup
@@ -47,7 +39,29 @@ CREATE INDEX users_name_trgm_idx ON users USING gin (name gin_trgm_ops);
 
 ## Usage
 
-See the [API documentation](https://docs.rs/pgtrgm) for detailed usage examples.
+```rust,ignore
+use diesel::prelude::*;
+use pgtrgm::expression_methods::TrgmExpressionMethods;
+
+// Find similar names
+let results = users::table
+    .filter(users::name.similar_to("john"))
+    .order_by(users::name.distance("john"))
+    .load::<User>(&mut conn)?;
+
+// Get similarity score
+use pgtrgm::dsl::similarity;
+
+let results = users::table
+    .select((users::name, similarity(users::name, "john")))
+    .filter(users::name.similar_to("john"))
+    .load::<(String, f32)>(&mut conn)?;
+
+// Word similarity for matching within longer text
+let results = articles::table
+    .filter(articles::content.word_similar_to("database"))
+    .load::<Article>(&mut conn)?;
+```
 
 ## Acknowledgments
 

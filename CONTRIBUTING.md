@@ -35,12 +35,6 @@ participating, you are expected to uphold this code.
 # Build with Diesel support
 cargo build --features diesel
 
-# Build with SQLx support
-cargo build --features sqlx
-
-# Build with all features
-cargo build --all-features
-
 # Run tests
 cargo test --all-features
 

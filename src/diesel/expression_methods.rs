@@ -1,8 +1,9 @@
-//! Extension trait for pg_trgm operators.
+//! Extension traits for pg_trgm operators.
 
 use diesel::expression::{AsExpression, Expression};
-use diesel::sql_types::{Nullable, Text};
+use diesel::sql_types::{Array, Nullable, Text};
 
+use super::dsl::array_to_string;
 use super::operators::*;
 
 /// Marker trait for types that support trigram operations.
@@ -29,7 +30,7 @@ where
     /// # Example
     ///
     /// ```rust,ignore
-    /// use pgtrgm::diesel::TrgmExpressionMethods;
+    /// use pgtrgm::TrgmExpressionMethods;
     ///
     /// users.filter(name.similar_to("john"))
     /// ```
@@ -68,7 +69,7 @@ where
     /// # Example
     ///
     /// ```rust,ignore
-    /// use pgtrgm::diesel::TrgmExpressionMethods;
+    /// use pgtrgm::TrgmExpressionMethods;
     ///
     /// users.order_by(name.distance("john"))
     /// ```
@@ -101,6 +102,43 @@ where
 }
 
 impl<T> TrgmExpressionMethods for T
+where
+    T: Expression,
+    T::SqlType: TrgmTextType,
+{
+}
+
+/// Type alias for array_to_string expression.
+type ArrayToStringExpr<T> =
+    super::dsl::array_to_string<T, <&'static str as AsExpression<Text>>::Expression>;
+
+/// Extension trait for text expressions with array support.
+pub trait TrgmArrayExpressionMethods: Expression + Sized
+where
+    Self::SqlType: TrgmTextType,
+{
+    /// Checks if this expression is similar to the concatenated array elements.
+    ///
+    /// Joins the array elements with spaces before comparing.
+    fn similar_to_array<T>(self, other: T) -> Similar<Self, ArrayToStringExpr<T::Expression>>
+    where
+        T: AsExpression<Array<Text>>,
+    {
+        Similar::new(self, array_to_string(other.as_expression(), " "))
+    }
+
+    /// Returns the trigram distance to the concatenated array elements.
+    ///
+    /// Joins the array elements with spaces before comparing.
+    fn distance_to_array<T>(self, other: T) -> Distance<Self, ArrayToStringExpr<T::Expression>>
+    where
+        T: AsExpression<Array<Text>>,
+    {
+        Distance::new(self, array_to_string(other.as_expression(), " "))
+    }
+}
+
+impl<T> TrgmArrayExpressionMethods for T
 where
     T: Expression,
     T::SqlType: TrgmTextType,
