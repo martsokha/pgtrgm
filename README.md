@@ -41,7 +41,7 @@ CREATE INDEX users_name_trgm_idx ON users USING gin (name gin_trgm_ops);
 
 ```rust,ignore
 use diesel::prelude::*;
-use pgtrgm::expression_methods::TrgmExpressionMethods;
+use pgtrgm::prelude::*;
 
 // Find similar names
 let results = users::table
@@ -65,7 +65,7 @@ let results = articles::table
 
 ## Acknowledgments
 
-This crate is inspired by [triforce_rs](https://github.com/callym/triforce_rs).
+This crate is a fork of [triforce_rs](https://github.com/callym/triforce_rs).
 
 ## Contributing
 
