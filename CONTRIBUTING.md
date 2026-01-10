@@ -63,15 +63,6 @@ cargo clippy --all-targets --all-features -- -D warnings
 
 5. Update documentation if needed
 
-## Code Style
-
-This project follows the standard Rust style guidelines:
-
-- Run `cargo fmt` before committing
-- Ensure `cargo clippy` passes with no warnings
-- Add documentation comments (`///`) for public APIs
-- Keep functions focused and reasonably sized
-
 ## Submitting Changes
 
 1. Commit your changes with clear, descriptive commit messages
