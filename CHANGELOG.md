@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-01-10
+
 ### Changed
 
 - Disabled diesel default features for minimal dependency footprint
@@ -63,7 +65,8 @@ and this project adheres to
   - SQL operator constants (`SIMILAR`, `DISTANCE`, etc.)
   - Helper functions for building query fragments
 
-[Unreleased]: https://github.com/martsokha/pgtrgm/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/martsokha/pgtrgm/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/martsokha/pgtrgm/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/martsokha/pgtrgm/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/martsokha/pgtrgm/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/martsokha/pgtrgm/releases/tag/v0.1.0
