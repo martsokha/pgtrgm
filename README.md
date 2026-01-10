@@ -4,9 +4,12 @@
 [![Crates.io](https://img.shields.io/crates/v/pgtrgm.svg)](https://crates.io/crates/pgtrgm)
 [![Documentation](https://docs.rs/pgtrgm/badge.svg)](https://docs.rs/pgtrgm)
 
-PostgreSQL [pg_trgm](https://www.postgresql.org/docs/current/pgtrgm.html) extension support for [Diesel](https://diesel.rs/).
+PostgreSQL [pg_trgm](https://www.postgresql.org/docs/current/pgtrgm.html)
+extension support for [Diesel](https://diesel.rs/).
 
-This crate provides bindings for PostgreSQL's `pg_trgm` extension, enabling trigram-based text similarity matching and fuzzy search.
+A fork of [triforce_rs](https://github.com/callym/triforce_rs), this crate
+provides bindings for PostgreSQL's `pg_trgm` extension, enabling trigram-based
+text similarity matching and fuzzy search.
 
 ## Features
 
@@ -20,7 +23,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-pgtrgm = { version = "0.1", features = ["diesel"] }
+pgtrgm = { version = "0.4", features = ["diesel"] }
 ```
 
 ## PostgreSQL Setup
@@ -50,8 +53,6 @@ let results = users::table
     .load::<User>(&mut conn)?;
 
 // Get similarity score
-use pgtrgm::dsl::similarity;
-
 let results = users::table
     .select((users::name, similarity(users::name, "john")))
     .filter(users::name.trgm_similar_to("john"))
@@ -63,9 +64,15 @@ let results = articles::table
     .load::<Article>(&mut conn)?;
 ```
 
-## Acknowledgments
+## Related Crates
 
-This crate is a fork of [triforce_rs](https://github.com/callym/triforce_rs).
+- [diesel_full_text_search] — PostgreSQL [Full Text Search] support for Diesel
+- [pgvector-rust] — PostgreSQL [Vector Similarity Search] support for Diesel
+
+[diesel_full_text_search]: https://github.com/diesel-rs/diesel_full_text_search
+[Full Text Search]: https://www.postgresql.org/docs/current/textsearch.html
+[pgvector-rust]: https://github.com/pgvector/pgvector-rust
+[Vector Similarity Search]: https://github.com/pgvector/pgvector
 
 ## Contributing
 

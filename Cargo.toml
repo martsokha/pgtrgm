@@ -28,4 +28,4 @@ default = []
 diesel = ["dep:diesel"]
 
 [dependencies]
-diesel = { version = "2.2", features = ["postgres"], optional = true }
+diesel = { version = "2.2", default-features = false, features = ["postgres"], optional = true }

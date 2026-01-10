@@ -3,9 +3,15 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres to
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Changed
+
+- Disabled diesel default features for minimal dependency footprint
+- Added Related Crates section to README (diesel_full_text_search, pgvector)
 
 ## [0.3.0] - 2026-01-09
 
@@ -15,7 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Renamed all expression methods with `trgm_` prefix to avoid conflicts with Diesel's `PgTextExpressionMethods::similar_to`:
+- Renamed all expression methods with `trgm_` prefix to avoid conflicts with
+  Diesel's `PgTextExpressionMethods::similar_to`:
   - `similar_to` → `trgm_similar_to`
   - `word_similar_to` → `trgm_word_similar_to`
   - `strict_word_similar_to` → `trgm_strict_word_similar_to`
@@ -31,7 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Removed SQLx support (wasn't useful for raw SQL queries)
 - Reorganized module structure: `dsl` and `expression_methods` modules
-- `TrgmExpressionMethods` and `TrgmArrayExpressionMethods` now in `expression_methods` module
+- `TrgmExpressionMethods` and `TrgmArrayExpressionMethods` now in
+  `expression_methods` module
 
 ### Removed
 
@@ -49,7 +57,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - SQL functions: `similarity`, `word_similarity`, `strict_word_similarity`
   - Utility functions: `show_trgm`, `show_limit`, `set_limit`
   - `TrgmExpressionMethods` trait for ergonomic operator usage
-  - Helper functions: `word_similar`, `strict_word_similar`, `word_distance_left`, `strict_word_distance_left`
+  - Helper functions: `word_similar`, `strict_word_similar`,
+    `word_distance_left`, `strict_word_distance_left`
 - **SQLx support:**
   - SQL operator constants (`SIMILAR`, `DISTANCE`, etc.)
   - Helper functions for building query fragments
