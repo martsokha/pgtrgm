@@ -23,7 +23,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-pgtrgm = { version = "0.4", features = ["diesel"] }
+pgtrgm = { version = "0.5", features = ["diesel"] }
 ```
 
 ## PostgreSQL Setup

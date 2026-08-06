@@ -8,6 +8,27 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-08-07
+
+### Security
+
+- Updated `diesel` to 2.3 to address six RUSTSEC advisories affecting 2.2.x:
+  - [RUSTSEC-2026-0136]: command injection in `COPY FROM`/`COPY TO`
+  - [RUSTSEC-2026-0137]: unaligned data access in `SqliteAggregate`
+    implementations
+  - [RUSTSEC-2026-0135]: unsound transmute when debug printing batch inserts
+  - [RUSTSEC-2026-0111]: UTF-8 corruption in the SQLite backend
+  - [RUSTSEC-2026-0134]: unsound padding-byte access in MySQL date/time
+    serialization
+  - [RUSTSEC-2026-0172]: use after free in
+    `SqliteConnection::deserialize_readonly_database`
+
+### Changed
+
+- **Breaking:** minimum supported `diesel` version is now 2.3 (was 2.2). No
+  fix exists in the 2.2 series; all six advisories are patched only in 2.3.
+- **Breaking:** MSRV raised to 1.86 (was 1.85), required by `diesel` 2.3.
+
 ## [0.4.0] - 2026-01-10
 
 ### Changed
@@ -65,8 +86,16 @@ and this project adheres to
   - SQL operator constants (`SIMILAR`, `DISTANCE`, etc.)
   - Helper functions for building query fragments
 
-[Unreleased]: https://github.com/martsokha/pgtrgm/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/martsokha/pgtrgm/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/martsokha/pgtrgm/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/martsokha/pgtrgm/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/martsokha/pgtrgm/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/martsokha/pgtrgm/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/martsokha/pgtrgm/releases/tag/v0.1.0
+
+[RUSTSEC-2026-0111]: https://rustsec.org/advisories/RUSTSEC-2026-0111
+[RUSTSEC-2026-0134]: https://rustsec.org/advisories/RUSTSEC-2026-0134
+[RUSTSEC-2026-0135]: https://rustsec.org/advisories/RUSTSEC-2026-0135
+[RUSTSEC-2026-0136]: https://rustsec.org/advisories/RUSTSEC-2026-0136
+[RUSTSEC-2026-0137]: https://rustsec.org/advisories/RUSTSEC-2026-0137
+[RUSTSEC-2026-0172]: https://rustsec.org/advisories/RUSTSEC-2026-0172

@@ -26,7 +26,7 @@ participating, you are expected to uphold this code.
 
 ### Prerequisites
 
-- Rust 1.85 or later
+- Rust 1.86 or later
 - Cargo (comes with Rust)
 
 ### Building the Project
